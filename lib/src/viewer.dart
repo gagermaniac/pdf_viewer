@@ -58,6 +58,7 @@ class _PDFViewerState extends State<PDFViewer> {
   bool _isLoading = true;
   int _pageNumber;
   bool _swipeEnabled = true;
+  double _currentProgress = 0.1;
   List<PDFPage> _pages;
   PageController _pageController;
   final Duration animationDuration = Duration(milliseconds: 200);
@@ -88,16 +89,22 @@ class _PDFViewerState extends State<PDFViewer> {
     });
 
     for (var i = 1; i <= _pages.length; i++) {
-      final data = await widget.document.get(
-        page: i,
-        onZoomChanged: onZoomChanged,
-        zoomSteps: widget.zoomSteps,
-        minScale: widget.minScale,
-        maxScale: widget.maxScale,
-        panLimit: widget.panLimit,
-      );
+      if (_pages[i - 1] == null) {
+        final data = await widget.document.get(
+          page: i,
+          onZoomChanged: onZoomChanged,
+          zoomSteps: widget.zoomSteps,
+          minScale: widget.minScale,
+          maxScale: widget.maxScale,
+          panLimit: widget.panLimit,
+        );
 
-      _pages[i - 1] = data;
+        _pages[i - 1] = data;
+
+        setState(() {
+          _currentProgress = i / _pages.length;
+        });
+      }
     }
 
     setState(() {
@@ -219,6 +226,17 @@ class _PDFViewerState extends State<PDFViewer> {
     return Scaffold(
       body: Stack(
         children: <Widget>[
+          Builder(
+            builder: (context) {
+              if (_isLoading) {
+                return LinearProgressIndicator(
+                  value: _currentProgress,
+                );
+              } else {
+                return SizedBox();
+              }
+            },
+          ),
           PageView.builder(
             physics: _swipeEnabled && widget.enableSwipeNavigation
                 ? null
