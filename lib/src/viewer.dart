@@ -83,6 +83,10 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   loadAll() async {
+    print('aasdsa')
+    setState(() {
+      _isLoading = true;
+    });
     for (var i = 1; i < _pages.length; i++) {
       final data = await widget.document.get(
         page: i,
@@ -99,6 +103,9 @@ class _PDFViewerState extends State<PDFViewer> {
         i = i;
       });
     }
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -107,7 +114,7 @@ class _PDFViewerState extends State<PDFViewer> {
     _pageNumber = _pageController.initialPage + 1;
     _isLoading = true;
     _pages = List(widget.document.count);
-    // _loadAllPages();
+    // loadAll();
     _loadPage();
   }
 
@@ -129,6 +136,7 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   _loadPage() async {
+    print('b')
     if (_pages[_pageNumber - 1] != null) return;
     setState(() {
       _isLoading = true;
