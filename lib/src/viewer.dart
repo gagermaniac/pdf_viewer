@@ -83,11 +83,11 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   loadAll() async {
-    print('aasdsa')
     setState(() {
       _isLoading = true;
     });
-    for (var i = 1; i < _pages.length; i++) {
+
+    for (var i = 1; i <= _pages.length; i++) {
       final data = await widget.document.get(
         page: i,
         onZoomChanged: onZoomChanged,
@@ -98,11 +98,8 @@ class _PDFViewerState extends State<PDFViewer> {
       );
 
       _pages[i - 1] = data;
-
-      setState(() {
-        i = i;
-      });
     }
+
     setState(() {
       _isLoading = false;
     });
@@ -136,10 +133,9 @@ class _PDFViewerState extends State<PDFViewer> {
   }
 
   _loadPage() async {
-    print('b')
     if (_pages[_pageNumber - 1] != null) return;
     setState(() {
-      _isLoading = true;
+      // _isLoading = true;
     });
 
     final data = await widget.document.get(
@@ -155,7 +151,7 @@ class _PDFViewerState extends State<PDFViewer> {
 
     if (mounted) {
       setState(() {
-        _isLoading = false;
+        // _isLoading = false;
       });
     }
   }

@@ -30,7 +30,7 @@ class _MyAppState extends State<MyApp> {
       document = await PDFDocument.fromAsset('assets/sample2.pdf');
     } else if (value == 2) {
       document = await PDFDocument.fromURL(
-          "http://conorlastowka.com/book/CitationNeededBook-Sample.pdf");
+          "https://medius.online/assets/buku/bukus.pdf");
     } else {
       document = await PDFDocument.fromAsset('assets/sample.pdf');
     }
