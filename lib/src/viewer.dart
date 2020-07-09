@@ -69,6 +69,9 @@ class _PDFViewerState extends State<PDFViewer> {
     _pages = List(widget.document.count);
     _pageController = widget.controller ?? PageController();
     _pageNumber = _pageController.initialPage + 1;
+
+    loadAll();
+
     if (!widget.lazyLoad)
       widget.document.preloadPages(
         onZoomChanged: onZoomChanged,
@@ -77,6 +80,25 @@ class _PDFViewerState extends State<PDFViewer> {
         maxScale: widget.maxScale,
         panLimit: widget.panLimit,
       );
+  }
+
+  loadAll() async {
+    for (var i = 1; i < _pages.length; i++) {
+      final data = await widget.document.get(
+        page: i,
+        onZoomChanged: onZoomChanged,
+        zoomSteps: widget.zoomSteps,
+        minScale: widget.minScale,
+        maxScale: widget.maxScale,
+        panLimit: widget.panLimit,
+      );
+
+      _pages[i - 1] = data;
+
+      setState(() {
+        i = i;
+      });
+    }
   }
 
   @override
@@ -111,17 +133,18 @@ class _PDFViewerState extends State<PDFViewer> {
     setState(() {
       _isLoading = true;
     });
-    for (var i = 0; i <= 5; i++) {
-      final data = await widget.document.get(
-        page: _pageNumber++,
-        onZoomChanged: onZoomChanged,
-        zoomSteps: widget.zoomSteps,
-        minScale: widget.minScale,
-        maxScale: widget.maxScale,
-        panLimit: widget.panLimit,
-      );
-      _pages[_pageNumber - 1] = data;
-    }
+
+    final data = await widget.document.get(
+      page: _pageNumber,
+      onZoomChanged: onZoomChanged,
+      zoomSteps: widget.zoomSteps,
+      minScale: widget.minScale,
+      maxScale: widget.maxScale,
+      panLimit: widget.panLimit,
+    );
+
+    _pages[_pageNumber - 1] = data;
+
     if (mounted) {
       setState(() {
         _isLoading = false;
