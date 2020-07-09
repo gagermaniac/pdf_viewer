@@ -73,14 +73,20 @@ class _PDFViewerState extends State<PDFViewer> {
 
     loadAll();
 
-    if (!widget.lazyLoad)
-      widget.document.preloadPages(
-        onZoomChanged: onZoomChanged,
-        zoomSteps: widget.zoomSteps,
-        minScale: widget.minScale,
-        maxScale: widget.maxScale,
-        panLimit: widget.panLimit,
-      );
+    // if (!widget.lazyLoad)
+    // widget.document
+    //     .preloadPages(
+    //       onZoomChanged: onZoomChanged,
+    //       zoomSteps: widget.zoomSteps,
+    //       minScale: widget.minScale,
+    //       maxScale: widget.maxScale,
+    //       panLimit: widget.panLimit,
+    //     )
+    //     .then((value) => {
+    //           setState(() {
+    //             _isLoading = false;
+    //           })
+    //         });
   }
 
   loadAll() async {
