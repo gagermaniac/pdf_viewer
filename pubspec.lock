@@ -21,7 +21,11 @@ packages:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.14.12"
+=======
+    version: "1.14.11"
+>>>>>>> bf561ee3d6ffbcd491cc4be9e733f507330a476f
   convert:
     dependency: transitive
     description:
